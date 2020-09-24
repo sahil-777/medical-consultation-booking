@@ -1,4 +1,4 @@
-from flask import Flask,session, render_template, request, redirect, url_for, Response
+from flask import Flask,session, render_template, request, redirect, sessions,url_for, Response
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
@@ -9,17 +9,17 @@ app.secret_key='Secrey'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'Pass@1234'
-app.config['MYSQL_DB'] = 'collegeproject'
+app.config['MYSQL_DB'] = 'onlinemedicalconsultation'
 
 mysql=MySQL(app)
 
 @app.route('/',methods=['POST','GET'])
 def index():
     if request.method=='POST':
-        if request.form.get('home_button'):
-            return render_template('home.html')
+        # if request.form.get('home_button'):
+        #     return render_template('home.html')
 
-        elif request.form.get('about_button'):
+        if request.form.get('about_button'):
             return redirect(url_for('about'))
 
         elif request.form.get('contact_button'):
@@ -32,14 +32,16 @@ def index():
         elif request.form.get('signup_button'):
             return redirect(url_for('signup'))
 
-        elif request.form.get('bookappointment_button'):
-            return render_template('bookappointment.html')
+        # elif request.form.get('bookappointment_button'):
+        #     return render_template('bookappointment.html')
     elif request.method=='GET':
         return render_template('index.html')
 
 @app.route('/home',methods=['POST','GET'])
 def home():
-    if request.method=='POST':
+    if isloggedin()==False:
+        return redirect(url_for('index'))
+    elif request.method=='POST':
         if request.form.get('profile_button'):
             return redirect(url_for('profile'))
         elif request.form.get('bookappointment_button'):
@@ -104,14 +106,14 @@ def signup():
         msg = 'Please fill out the form !'
     return render_template('signup.html', msg=msg)
 
-@app.route('/profile', methods=['POST','GET'])
+@app.route('/home/profile', methods=['POST','GET'])
 def profile():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM accounts WHERE id = %s',(session['id'],))
     user = cursor.fetchone()
     return render_template('profile.html', user=user)
 
-@app.route('/bookappointment')
+@app.route('/home/bookappointment')
 def bookappointment():
     return render_template('bookappointment.html')
 
@@ -121,6 +123,12 @@ def logout():
     session.pop('id', None)
     session.pop('username', None)
     return redirect(url_for('index'))
+
+def isloggedin():
+    if not session.get('loggedin') is None:
+        return True
+    return False
+
 
 if __name__ == '__main__':
     app.run(debug=True)
