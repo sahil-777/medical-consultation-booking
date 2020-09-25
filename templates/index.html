@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+		<title>Online Medical Consultaion</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+		<script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('#icon').click(function(){
+					$('ul').toggleClass('show')
+				
+
+				});
+			});
+
+
+		</script>
+		</head>
+			<body>
+			</body>
+				<nav>
+				<form action="/" method="POST">
+					<label class="logo">Collge Project</label>
+					<ul>
+						<li><input class="active" type="submit" name="about_button" value="About"></li>
+						<li><input type="submit" name="contact_button" value="Contact"></li>
+						<li><input type="submit" name="login_button" value="Login"></li>
+						<li><input type="submit" name="signup_button" value="Signup"></li>
+					</ul>
+					<!--<label id="icon">
+						<i class="fas fa-bars"></i>
+					</label>-->
+				</form>
+				</nav> 
+				<section></section>
+			</body>
+	</html>

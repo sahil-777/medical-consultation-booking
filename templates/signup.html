@@ -1,0 +1,53 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+	<title>Signup</title>
+</head>
+<body>
+<h1>Fill the Signup form<h1>
+</body>
+</html>
+-->
+
+<!-- Store this code in 'register.html' file inside the 'templates' folder -->
+
+<html> 
+	<head> 
+		<meta charset="UTF-8"> 
+		<title> Register </title> 
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+		 			 
+	</head> 
+	<body> 
+		<section></section>
+		<div class="center">
+				<h1>Signup</h1>
+				  
+				<form action="{{ url_for('signup') }}" method="POST"> 
+				<div>{{ msg }}</div> 
+				<div class="txt_field">
+					<input type="text" name="username" type="text" required/>
+					<span></span>
+					<label>Username</label>
+				</div>
+				<div class="txt_field">
+					<input type="password" name="password" type="text" required/>
+					<span></span>
+					<label>Password</label>
+				</div>
+				<div class="txt_field">
+					<input type="text" name="email" type="text" required/>
+					<span></span>
+					<label>E-mail</label>
+				</div> 
+					<input type="submit" value="Sign Up">
+					<div class="signup_link">
+					<p>Already have an account? <a href="{{url_for('login')}}"> Sign In here</a></p> 
+					</div>
+				</form>
+				  
+
+		</div>
+	</body> 
+</html> 
