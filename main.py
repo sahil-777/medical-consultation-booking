@@ -108,14 +108,40 @@ def signup():
 
 @app.route('/home/profile', methods=['POST','GET'])
 def profile():
+    if isloggedin()==False:
+        return redirect(url_for('index'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM accounts WHERE id = %s',(session['id'],))
     user = cursor.fetchone()
     return render_template('profile.html', user=user)
 
-@app.route('/home/bookappointment')
+@app.route('/home/bookappointment', methods=['POST','GET'])
 def bookappointment():
-    return render_template('bookappointment.html')
+    if isloggedin()==False:
+        return redirect(url_for('index'))
+    msg=''
+    form_dict=request.form.to_dict()
+    if request.method == 'POST' and 'appointmentdate' in request.form and 'firstname' in request.form and 'lastname' in request.form and 'phone' in request.form and 'symptoms' in request.form and 'gender' in request.form:
+    #if request.method == 'POST' and request.form.validate():
+        fname = request.form['firstname']
+        lname = request.form['lastname']
+        if len(request.form['age'])==0 or len(request.form['appointmentdate'])==0 :
+        #if 'age' not in request.form:
+            msg = 'Please fill out the form !'
+            return render_template('bookappointment.html', msg=msg)
+        age = request.form['age']
+        phone = request.form['phone']
+        symptoms = request.form['symptoms']
+        gender = request.form['gender']
+        reportfile = request.files['reportfile']
+        date = request.form['appointmentdate']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('INSERT INTO tempp_book_apnt VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)',(fname,lname,int(age),phone,symptoms,gender,reportfile,date))
+        mysql.connection.commit()
+        msg = 'Your appointment is booked successfully !'
+    elif request.method == 'POST':
+        msg = 'Please fill out the form !'
+    return render_template('bookappointment.html',msg=msg)
 
 @app.route('/logout')
 def logout():
@@ -128,6 +154,7 @@ def isloggedin():
     if not session.get('loggedin') is None:
         return True
     return False
+
 
 
 if __name__ == '__main__':
