@@ -1,9 +1,80 @@
+<!--
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Book Appointme nt</title>
+	<title>Book Appointment</title>
 </head>
 <body>
 <h1>Fill details for booking<h1>
+	<form action="{{url_for('bookappointment')}}" method="POST">
+		<input type="text" name="sahil" placeholder="Enter name" >
+		<input type="text" name="sahil" placeholder="Enter name" >
+		<input type="text" name="sahil" placeholder="Enter name" >
+		<input type="text" name="sahil" placeholder="Enter name" >
+		<input type="text" name="sahil" placeholder="Enter name" >
+		<input type="text" name="sahil" placeholder="Enter name" >
+		<input type="text" name="sahil" placeholder="Enter name" >
+
+	</form>
+</body>
+</html>
+-->
+
+<Html>
+<head> 
+<title>
+Book Appointment
+</title>
+</head>
+<body>
+	<br>
+	<br>
+	<form action="{{url_for('bookappointment')}}" method="POST" enctype="multipart/form-data">
+		<div>{{ msg }}</div>
+
+		<label> Appointment Date:</label>       
+		<input type="Date" name="appointmentdate"/> <br> <br>
+
+		<label> First name: </label>       
+		<input type="text" name="firstname" size="15"/> <br> <br>
+
+		<label> Last name: </label>       
+		<input type="text" name="lastname" size="15"/> <br> <br>
+		
+		<label> Age : &nbsp&nbsp&nbsp&nbsp</label>
+		<input type="number" name="age" max="100" min="1" size="1"/>&nbsp years <br> <br>
+		
+		<label> 
+		Gender :
+		</label> 
+		<select name="gender">
+		<option value="Male">Male</option>
+		<option value="Female">Female</option>
+		<option value="Other">Other</option>
+		</select>
+		
+		<br>
+		<br>
+	 	
+	 	<label>
+		Phone :
+		</label>
+	 
+		<input type="text" name="phone" size="10"/> <br> <br>
+
+		Symptoms
+		<br>
+		<textarea cols="80" rows="5"  name="symptoms" placeholder="Tell us what you are feeling"></textarea><br> <br>
+
+		<label>Upload Previous Medical Report (If any)</label><br><br>
+		<input type="file" name="reportfile"><br><br>
+		<!--
+		Address
+		<br>
+		<textarea cols="80" rows="5" name="address" value="Address"></textarea>
+		<br><br>
+		-->
+		<input type="submit" value="Submit Form">
+	</form>
 </body>
 </html>
