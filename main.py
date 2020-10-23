@@ -121,7 +121,6 @@ def bookappointment():
         return redirect(url_for('index'))
     msg=''
     form_dict=request.form.to_dict()
-    >>>>>>> master
     if request.method == 'POST': 
         fname = request.form['firstname']
         lname = request.form['lastname']
