@@ -113,7 +113,10 @@ def profile():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM accounts WHERE id = %s',(session['id'],))
     user = cursor.fetchone()
-    return render_template('profile.html', user=user)
+    #cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM bookappointment WHERE user_id = %s', (session['id'],))
+    userAppointments = cursor.fetchall()
+    return render_template('profile.html', user=user, userAppointments=userAppointments)
 
 @app.route('/home/bookappointment', methods=['POST','GET'])
 def bookappointment():
@@ -121,7 +124,9 @@ def bookappointment():
         return redirect(url_for('index'))
     msg=''
     form_dict=request.form.to_dict()
-    if request.method == 'POST': 
+    #if request.method == 'POST' and 'appointmentdate' in request.form and 'firstname' in request.form and 'lastname' in request.form and 'phone' in request.form and 'symptoms' in request.form and 'gender' in request.form:
+    if request.method == 'POST':
+    #if request.method == 'POST' and request.form.validate():
         fname = request.form['firstname']
         lname = request.form['lastname']
         if len(request.form['age'])==0 or len(request.form['appointmentdate'])==0 :
@@ -135,7 +140,8 @@ def bookappointment():
         reportfile = request.files['reportfile']
         date = request.form['appointmentdate']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('INSERT INTO tempp_book_apnt VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s,%s)',(fname,lname,int(age),phone,symptoms,gender,reportfile,date,session['id']))
+        cursor.execute('INSERT INTO bookappointment VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s,%s)',(session['id'],fname,lname,int(age),gender,date,phone,symptoms,reportfile))
+    #cursor.execute('INSERT INTO tempp_book_apnt VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s,%s)',(fname, lname, int(age), phone, symptoms, gender, reportfile, date, session['id']))
         mysql.connection.commit()
         msg = 'Your appointment is booked successfully !'
     elif request.method == 'POST':
