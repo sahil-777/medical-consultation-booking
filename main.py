@@ -1,10 +1,11 @@
-from flask import Flask,session, render_template, request, redirect, sessions,url_for, Response
+from flask import jsonify,Flask,session, render_template, request, redirect, sessions,url_for, Response
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
-from werkzeug.security import generate_password_hash, check_password_hash
+import json
 from flask_mail import Mail,Message
 import hashlib
+import datetime
 
 app=Flask('__name__')
 app.secret_key='Secrey'
@@ -136,6 +137,11 @@ def signup():
         msg = 'Please fill out the form !'
     return render_template('signup.html', msg=msg)
 
+def myconverter(o):
+    if isinstance(o, datetime.date):
+        return o.__str__()
+
+
 @app.route('/home/profile', methods=['POST','GET'])
 def profile():
     if isloggedin()==False:
@@ -143,10 +149,22 @@ def profile():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor) 
     cursor.execute('SELECT * FROM accounts WHERE id = %s',(session['id'],))
     user = cursor.fetchone()
+    cursor.execute('SELECT COUNT(*) FROM bookappointment WHERE user_id = %s', (session['id'],))
+    no =cursor.fetchone()
+    no=no['COUNT(*)']
+    return render_template('profile.html', user=user,noApnts=no)
+    
+@app.route('/home/profile/yourappointments', methods=['POST','GET'])
+def bookedApnt():
+    if isloggedin()==False:
+        return redirect(url_for('index'))
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM bookappointment WHERE user_id = %s', (session['id'],))
     data = cursor.fetchall()
-    return render_template('profile.html', user=user , data=data) 
-    
+    data = json.dumps(data, default=myconverter)
+    print(data)
+    return jsonify(data)
+
 
 @app.route('/home/bookappointment', methods=['POST','GET'])
 def bookappointment():
