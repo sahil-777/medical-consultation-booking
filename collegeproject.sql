@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS `onlinemedicalconsultation` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `onlinemedicalconsultation`;
-show databases;
+
 
 CREATE TABLE IF NOT EXISTS `accounts`(
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
