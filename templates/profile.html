@@ -6,6 +6,7 @@
     <meta charset="UTF-8"> 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profile.css') }}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
     <nav>
@@ -24,32 +25,16 @@
     <section>
         <p>Username &nbsp&nbsp&nbsp:&nbsp{{user.username}}</p>
         <p>Email &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp{{user.email}}</p>
-        <!--<p>Password &nbsp&nbsp&nbsp:&nbsp{{user.password}}</p>-->
-        <p>Appoinments : {{data|length}}</p>
-        <input type="button" class="button" value="Check Appointment" onclick="showappoint()"><br><br>
-        <table id="apnttable" style="display: none;">
-            <thead>
-                <tr>
-                    <th>Appontment ID</th>
-                    <th>Appointment Date</th>
-                    <th>Symptoms</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for r in data %}
-                <tr>
-                    <td>{{r["appoint_id"]}}</td>
-                    <td>{{r["appoint_date"]}}</td>
-                    <td>{{r["symptoms"]}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <p>Appoinments : {{noApnts}}</p>
+        <input type="button" class="button" value="Your Appointments" 
+        id="showA" onclick="showappoint()"><br><br>
+        <table id="demo" style="display: none" ></table> 
     </section>
+
 </body>
 <script type="text/javascript">
             function showappoint(){
-                var t = document.getElementById('apnttable') ;
+                var t = document.getElementById('demo') ;
                 if (t.style.display === 'none') {
                     t.style.display = 'block' ;
                 }
@@ -57,6 +42,37 @@
                     t.style.display = 'none' ;
                 }
             }
+      
+
+			$('#showA').click(function() {
+			    $.ajax({
+			        type: "GET",
+			        url: "http://127.0.0.1:5000/home/profile/yourappointments",
+			        datatype: 'json',
+			        success: function(data) {
+			        	mydata=JSON.parse(data);
+			        	var txt="";
+			        	txt += "<table border='1'>"
+			        	txt+= "<thead><tr><th>Appontment ID</th><th>Appointment Date</th><th>Symptoms</th></tr></thead><tbody>"
+      					for (var x in mydata) {
+      						txt+="<tr>";
+					    	txt+="<td>"+mydata[x].appoint_id+"</td>";
+					    	txt+="<td>"+mydata[x].appoint_date+"</td>";
+					    	txt+="<td>"+mydata[x].symptoms+"</td>";
+					    txt+="</tr>";
+					    }
+					    txt += "</tbody></table>"
+					    document.getElementById("demo").innerHTML = txt;
+			       	},
+			        error: function(error){
+			            console.log("Here is the error res: " + JSON.stringify(error));
+			        }
+			    });
+			    return false;
+			});
+			
+
+
             const navslide = () => {
             const hamburger = document.querySelector(".hamburger");
             const nav = document.querySelector(".nav");
@@ -67,5 +83,6 @@
             }
 
         navslide();
+
 </script>
 </html>
