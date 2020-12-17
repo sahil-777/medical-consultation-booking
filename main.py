@@ -12,14 +12,14 @@ app.secret_key='Secrey'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Pass@1234'
+app.config['MYSQL_PASSWORD'] = 'YOUR_MYSQL_PASSWORD'
 app.config['MYSQL_DB'] = 'onlinemedicalconsultation'
 
 mysql=MySQL(app)
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'testproject1080@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Pass@1234'
+app.config['MAIL_USERNAME'] = 'RECEIVER_EMAILID'
+app.config['MAIL_PASSWORD'] = 'PASSWORD'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
