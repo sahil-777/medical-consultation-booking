@@ -1,0 +1,51 @@
+<Html>
+<head> 
+	<title>BookAppointment-Medico</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"> 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bookappointment.css')}}">
+	<script type="text/javascript" src="{{url_for('static',filename='JScript.js')}}"></script>
+</head>
+<body>
+	<nav>
+		<form action="{{url_for('home')}}" method ="POST" class="form">
+			<label class="logo"><a href="{{url_for('home')}}">Medico</a></label>
+			<ul class="nav">
+				<li><i class="fa fa-user" aria-hidden="true"></i><input type="submit" name="profile_button" value="Profile"></li>
+				<li><i class="fa fa-address-book" aria-hidden="true"></i><input type="submit" name="bookappointment_button" value="Book Appointment"></li>
+				<li><i class="fa fa-sign-out" aria-hidden="true"></i><input type="submit" name="logout_button" value="Logout"></li>
+			</ul>
+		</form>
+		<div class="hamburger">
+			<i class="fa fa-bars" aria-hidden="true" onclick="navslide()"></i>
+		</div>
+	</nav>
+	<form action="{{url_for('bookappointment')}}" method="POST" enctype="multipart/form-data" name="bookappointment" class = "bookappointment" onsubmit="return validate_file();">
+		<div><p style="color: green; background-color:#FFFFE0; border-width:1px;border-style:solid; font-size: 19px" >{{ msg }}</p></div>
+		<label> Appointment Date:*</label><input type="Date" name="appointmentdate" required=""><br>
+		<label> Full name:*</label><input type="text" name="firstname" size="30" placeholder="Your Name" required="">
+		<label> 
+		Gender* :
+		</label> 
+		<select name="gender" required="">
+			<option value="Male">Male</option>
+			<option value="Female">Female</option>
+			<option value="Other">Other</option>
+		</select>
+	 	<label>
+		Phone :
+		</label>
+		<input type="tel" name="phone" maxlength="10" placeholder="9108965444" required=""> 
+		<label> Symptoms*</label>
+		<textarea cols="60" rows="5" name="symptoms" placeholder="Tell us what symptoms you have" required=""></textarea>
+		<label style="line-height: 1; margin-top: 1rem;">Upload Previous Medical Report (If any)</label>
+		<label><sub >only .pdf/.doc/.txt format is allowed</sub></label>
+		<input class="file" id="file" type="file" name="reportfile" notrequired="" onchange="return validate_file();">
+		<button>Submit</button>
+	</form>
+	<section>
+        <p>Schedule Your <strong>Appointment</strong> Today for consulting with the best doctors</p>
+    </section>
+</body>
+</html>

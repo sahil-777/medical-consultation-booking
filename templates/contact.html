@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Contact us</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='contact.css')}}">
+</head>
+<body>
+	<nav>
+		<form action="/" method="POST">
+			<label class="logo"><a href="{{url_for('index')}}">Medico</a></label>
+			<ul class="nav">
+				 
+				<li><i class="fa fa-phone" aria-hidden="true"></i><input type="submit" name="contact_button" value="Contact" 
+				></li>
+				<li><i class="fa fa-sign-in" aria-hidden="true"></i><input type="submit" name="login_button" value="Login"></li>
+				<li><i class="fa fa-registered" aria-hidden="true"></i><input type="submit" name="signup_button" value="Signup"></li>
+			</ul>
+		</form>
+		<div class="hamburger">
+			<i class="fa fa-bars" aria-hidden="true"></i>
+		</div>
+	</nav> 
+	<section>
+		<div class="left-container">
+			<header>
+				<h1>Contact Us</h1>
+			</header>
+			<article>
+				<p>If you have any queries a member of staff will always be happy to help.Feel free to contact us by just dropping us a mail or telephone and we will be sure to get back to you as soon as possible.</p>
+				<p class="regards">Regards,Team MEDICO</p>
+			</article>
+		</div>
+		<aside>
+			<form action="{{url_for('contact')}}" method="POST" enctype="multipart/form-data">
+
+				<h2>Get in Touch</h2>
+				<div><p style="color: green; background-color:#FFFFE0; border-width:1px;border-style:solid; font-size: 19px" >{{ message }}</p></div>
+				<input type="text" name="fullname" size="30" placeholder="Your Name" required /> 
+				<input  type="email" name="email"  placeholder="Email Address" required />
+				<textarea name="msg"  placeholder="Type your message/query here" required /></textarea>
+				<div>
+					<button>Send</button>
+				</div>
+			</form>
+		</aside>
+	</section>
+</body>
+<script>
+	const navslide = () => {
+		const hamburger = document.querySelector(".hamburger");
+		const nav = document.querySelector(".nav");
+
+		hamburger.addEventListener('click', () => {
+			nav.classList.toggle("nav2");
+		 });
+	}
+
+	navslide();
+</script>
+</html>
